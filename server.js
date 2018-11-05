@@ -2,21 +2,21 @@ var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
-  User = require('./api/models/User'), //created model loading here
-  bodyParser = require('body-parser');
+  User = require('./api/models/User'),
+  bodyParser = require('body-parser'),
+  jwt = require('jsonwebtoken'),
+  config = require('./config')
   
-// mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/backendDB'); 
-
+mongoose.connect(config.database); 
+app.set('superSecret', config.secret); // secret variable
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-var routes = require('./api/routes/userRoutes'); //importing route
-routes(app); //register the route
-
+var routes = require('./api/routes');
+routes(app);
 
 app.listen(port);
 

@@ -1,7 +1,10 @@
 'use strict';
 
+
+const bcrypt = require('bcrypt');
 var mongoose = require('mongoose'),
-  User = mongoose.model('Users');
+  User = mongoose.model('Users'),
+  saltRounds = 10
 
 exports.list_all_users = function(req, res) {
   User.find({}, function(err, user) {
@@ -12,11 +15,18 @@ exports.list_all_users = function(req, res) {
 };
 
 exports.create_a_user = function(req, res) {
-  var new_user = new User(req.body);
-  new_user.save(function(err, user) {
-    if (err)
-      res.send(err);
-    res.json(user);
+  const password = req.body.password;
+  bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(password, salt, function(err, hash) {
+      req.body['password'] = hash;
+      var new_user = new User(req.body);
+
+        new_user.save(function(err, user) {
+          if (err)
+            res.send(err);
+          res.json(user);
+        });
+    });
   });
 };
 
