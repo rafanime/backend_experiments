@@ -8,7 +8,7 @@ const User = mongoose.model('Users')
 
 const config = require('../../config')
 
-exports.authenticateUser = function(req, res) {
+exports.authenticateUser = (req, res) => {
     User.findOne({
         name: req.body.name
       }, function(err, user) {
@@ -49,7 +49,7 @@ exports.authenticateUser = function(req, res) {
       });
 }
 
-exports.checkToken = function(req, res, next) {
+exports.checkToken = (req, res, next) => {
 
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['authorization'];

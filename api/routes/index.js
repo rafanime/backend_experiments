@@ -1,5 +1,5 @@
-var userRoutes = require('./userRoutes');
-var authRoutes = require('./authRoutes');
+const authRoutes = require('./authRoutes');
+const userRoutes = require('./userRoutes');
 
 module.exports = function(app) {
     userRoutes(app);
