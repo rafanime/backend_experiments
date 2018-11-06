@@ -3,7 +3,7 @@
 var authRoutes = require('./authRoutes');
 var userRoutes = require('./userRoutes');
 
-module.exports = function (app) {
-    userRoutes(app);
-    authRoutes(app);
+module.exports = function route(app) {
+  userRoutes(app);
+  authRoutes(app);
 };

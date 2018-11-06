@@ -1,63 +1,62 @@
-'use strict';
+import bcrypt from 'bcrypt';
+import { User } from '../models';
 
-
-const bcrypt = require('bcrypt');
-var mongoose = require('mongoose'),
-  User = mongoose.model('Users'),
-  saltRounds = 10
+const saltRounds = 10;
 
 exports.list_all_users = (req, res) => {
-  User.find({}, function(err, user) {
-    if (err)
+  User.find({}, (err, user) => {
+    if (err) {
       res.send(err);
+    }
     res.json(user);
   });
 };
 
 exports.create_a_user = (req, res) => {
-  const password = req.body.password;
-  bcrypt.genSalt(saltRounds, function(err, salt) {
-    bcrypt.hash(password, salt, function(err, hash) {
-      req.body['password'] = hash;
-      var new_user = new User(req.body);
+  const { password } = req.body;
+  bcrypt.genSalt(saltRounds, (err, salt) => {
+    bcrypt.hash(password, salt, (hashError, hash) => {
+      req.body.password = hash;
+      const newUser = new User(req.body);
 
-        new_user.save(function(err, user) {
-          if (err)
-            res.send(err);
-          res.json(user);
-        });
+      newUser.save((saveError, user) => {
+        if (saveError) {
+          res.send(saveError);
+        }
+        res.json(user);
+      });
     });
   });
 };
 
 
 exports.read_a_user = (req, res) => {
-  user.findById(req.params.userId, function(err, user) {
-    if (err)
+  User.findById(req.params.userId, (err, user) => {
+    if (err) {
       res.send(err);
+    }
     res.json(user);
   });
 };
 
 
 exports.update_a_user = (req, res) => {
-  user.findOneAndUpdate({_id: req.params.userId}, req.body, {new: true}, function(err, user) {
-    if (err)
+  User.findOneAndUpdate({ _id: req.params.userId }, req.body, { new: true }, (err, user) => {
+    if (err) {
       res.send(err);
+    }
     res.json(user);
   });
 };
 
 
 exports.delete_a_user = (req, res) => {
-
-
-  user.remove({
-    _id: req.params.userId
-  }, function(err, user) {
-    if (err)
+  User.remove({
+    _id: req.params.userId,
+  }, (err, user) => {
+    if (err) {
       res.send(err);
-    res.json({ message: 'user successfully deleted' });
+    }
+    res.json({ message: 'user successfully deleted', user });
   });
 };
-

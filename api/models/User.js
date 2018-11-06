@@ -1,28 +1,25 @@
-'use strict';
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import mongoose from 'mongoose';
 
-
-var User = new Schema({
+const User = new mongoose.Schema({
   first_name: {
     type: String,
-    required: true
+    required: true,
   },
   last_name: {
     type: String,
-    required: true
+    required: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
-  }
+    unique: true,
+  },
 },
-{ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
-);
+{ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 
-module.exports = mongoose.model('Users', User);
+
+export default mongoose.model('User', User);

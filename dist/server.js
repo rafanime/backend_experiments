@@ -16,8 +16,8 @@ app.set('superSecret', config.secret); // secret variable
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var routes = require('./api/routes/userRoutes'); //importing route
-authRoutes(app);
+var routes = require('./api/routes/'); //importing route
+routes(app);
 
 app.listen(port);
 

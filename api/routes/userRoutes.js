@@ -1,7 +1,6 @@
-'use strict';
-module.exports = (app) => {
-  var user = require('../controllers/userController');
+import * as user from '../controllers/userController';
 
+module.exports = (app) => {
   app.route('/api/users')
     .get(user.list_all_users)
     .post(user.create_a_user);
