@@ -5,7 +5,7 @@ import { User } from '../models';
 
 exports.authenticateUser = (req, res) => {
   User.findOne({
-    name: req.body.name,
+    email: req.body.email,
   }, (err, user) => {
     if (err) throw err;
     if (!user) {
@@ -28,11 +28,13 @@ exports.authenticateUser = (req, res) => {
           const token = jwt.sign(payload, config.secret, {
             expiresIn: 86440, // expires in 24 hours
           });
-
           res.json({
             success: true,
             message: 'Enjoy your token!',
-            token,
+            data: {
+              token,
+              user,
+            },
           });
         }
       });
